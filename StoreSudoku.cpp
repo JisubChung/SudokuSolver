@@ -29,7 +29,7 @@ StoreSudoku::~StoreSudoku(void)
 {
 }
 
-void StoreSudoku::printSudoku()
+void StoreSudoku::sudokuPrintAll()
 {
 	for (int i = 0; i < 9; i++)
 	{
