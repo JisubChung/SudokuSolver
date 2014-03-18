@@ -64,16 +64,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BoxSudoku.cpp" />
-    <ClCompile Include="ColumnSudoku.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="RowSudoku.cpp" />
     <ClCompile Include="StoreSudoku.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BoxSudoku.h" />
-    <ClInclude Include="ColumnSudoku.h" />
-    <ClInclude Include="RowSudoku.h" />
     <ClInclude Include="StoreSudoku.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

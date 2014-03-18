@@ -1,13 +1,10 @@
 #include "StoreSudoku.h"
 
 
-StoreSudoku::StoreSudoku()
-{
-}
-
 StoreSudoku::StoreSudoku(int numberOfLines)
 {
 	int sudokuSize = numberOfLines;
+	cout << sudokuSize << "HELLO";
 	ifstream sudoku;
 	sudoku.open("puzzle.txt");
 	char output[10];
@@ -24,12 +21,11 @@ StoreSudoku::StoreSudoku(int numberOfLines)
 	}
 	sudoku.close();
 }
-
 StoreSudoku::~StoreSudoku(void)
 {
 }
 
-void StoreSudoku::sudokuPrintAll()
+void StoreSudoku::sudokuGetAll()
 {
 	for (int i = 0; i < 9; i++)
 	{
@@ -39,4 +35,23 @@ void StoreSudoku::sudokuPrintAll()
 		}
 		cout << endl << "------------------" << endl;
 	}
+}
+char StoreSudoku::sudokuGetElement(Row number, Column character)
+{
+	cout << 97+sudokuSize << endl << sudokuSize << endl;
+
+	if ((character < 97) || (character > (97 + sudokuSize)))
+	{
+		cout << "Error, column is invalid" << endl;
+		return '0';
+	}
+	else
+	{
+		return sudokuArray[number][character-97];
+	}
+}
+
+void StoreSudoku::sudokuSetElement(Row number, Column character, char element)
+{
+	sudokuArray[number][character-97]=element;
 }
