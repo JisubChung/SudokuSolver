@@ -22,9 +22,17 @@ public:
 
 	bool sudokuCheckElement(Row number, Column character);
 
+	void sudokuElementInBox(Row number, Column character, char elemNumber);
+	void sudokuElementInRow(Row number, Column character, char elemNumber);
+	void sudokuElementInCollumn(Row number, Column character, char elemNumber);
+
+	void sudokuElementIterator(Row number, Column character);
+
 private:
 	int sudokuSize;
 	char sudokuArray[9][9]; //currently using a static array, will implement a dynamically sized array later
+	int sudokuRow;
+	int sudokuColumn;
 };
 
 #endif

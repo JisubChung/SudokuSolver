@@ -55,3 +55,34 @@ void StoreSudoku::sudokuSetElement(Row number, Column character, char element)
 {
 	sudokuArray[number][character-97]=element;
 }
+
+bool StoreSudoku::sudokuCheckElement(Row number, Column character)
+{
+	//Get a list of all the possible constraints
+	//Check those constraints with elements in contact
+	//if a constraint matches with another element in contact,
+	//then remove that constraint
+
+	//Can be optimized by removing constraint from all elements that share in the box/row/col
+}
+
+void StoreSudoku::sudokuElementInBox(Row number, Column character, char elemNumber)
+{
+	//only checking empty cells
+	//for the given char number, check if it's inside of the box
+}
+void StoreSudoku::sudokuElementInRow(Row number, Column character, char elemNumber)
+{
+	//only checking empty cells
+	//for the given char number, check if it's inside of the row
+}
+void StoreSudoku::sudokuElementInCollumn(Row number, Column character, char elemNumber)
+{
+	//only checking empty cells
+	//for the given char number, check if it's inside of the collumn
+}
+
+void StoreSudoku::sudokuElementIterator(Row number, Column character)
+{
+	//sets sudokuRow and sudokuColumn to be whatever needs to be worked on
+}
