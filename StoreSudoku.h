@@ -22,9 +22,9 @@ public:
 
 	bool sudokuCheckElement(Row number, Column character);
 
-	void sudokuElementInBox(Row number, Column character, char elemNumber);
-	void sudokuElementInRow(Row number, Column character, char elemNumber);
-	void sudokuElementInCollumn(Row number, Column character, char elemNumber);
+	bool sudokuElementInBox(Row number, Column character, char elemNumber);
+	bool sudokuElementInRow(Row number, char elemNumber);
+	bool sudokuElementInCollumn(Column character, char elemNumber);
 
 	void sudokuElementIterator(Row number, Column character);
 

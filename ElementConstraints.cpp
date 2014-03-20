@@ -27,7 +27,7 @@ void ElementConstraints::constraintListAll()
 	//lists all the constraints of this element
 }
 
-int ElementConstraints::constraintNumRemain()
-{
-	//returns an int of how many constraints there are left
-}
+//int ElementConstraints::constraintNumRemain()
+//{
+//	//returns an int of how many constraints there are left
+//}

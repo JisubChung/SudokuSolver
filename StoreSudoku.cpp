@@ -3,8 +3,7 @@
 
 StoreSudoku::StoreSudoku(int numberOfLines)
 {
-	int sudokuSize = numberOfLines;
-	cout << sudokuSize << "HELLO";
+	sudokuSize = numberOfLines;
 	ifstream sudoku;
 	sudoku.open("puzzle.txt");
 	char output[10];
@@ -38,8 +37,6 @@ void StoreSudoku::sudokuGetAll()
 }
 char StoreSudoku::sudokuGetElement(Row number, Column character)
 {
-	cout << 97+sudokuSize << endl << sudokuSize << endl;
-
 	if ((character < 97) || (character > (97 + sudokuSize)))
 	{
 		cout << "Error, column is invalid" << endl;
@@ -51,7 +48,7 @@ char StoreSudoku::sudokuGetElement(Row number, Column character)
 	}
 }
 
-void StoreSudoku::sudokuSetElement(Row number, Column character, char element)
+void StoreSudoku::sudokuSetElement(Row number, Column character, char element) //character and element needs to be enclosed in ' '
 {
 	sudokuArray[number][character-97]=element;
 }
@@ -64,22 +61,39 @@ bool StoreSudoku::sudokuCheckElement(Row number, Column character)
 	//then remove that constraint
 
 	//Can be optimized by removing constraint from all elements that share in the box/row/col
+	return false;
 }
 
-void StoreSudoku::sudokuElementInBox(Row number, Column character, char elemNumber)
+
+//These functions report if "elemNumber" is inside of the Box/Row/Col
+//This is done so that sudokuCheckElement can compare the constraints to elements in contact
+bool StoreSudoku::sudokuElementInBox(Row number, Column character, char elemNumber) //input elemNumber enclosed by ' '
 {
 	//only checking empty cells
 	//for the given char number, check if it's inside of the box
+	return false;
 }
-void StoreSudoku::sudokuElementInRow(Row number, Column character, char elemNumber)
+bool StoreSudoku::sudokuElementInRow(Row number, char elemNumber) //input elemNumber enclosed by ' '
 {
-	//only checking empty cells
-	//for the given char number, check if it's inside of the row
+	for (int i = 0; i < sudokuSize; i++)
+	{
+		if (elemNumber == sudokuArray[number][i])
+		{
+			return true;
+		}
+	}
+	return false;
 }
-void StoreSudoku::sudokuElementInCollumn(Row number, Column character, char elemNumber)
+bool StoreSudoku::sudokuElementInCollumn(Column character, char elemNumber) //input character & elemNumber enclosed by ' '
 {
-	//only checking empty cells
-	//for the given char number, check if it's inside of the collumn
+	for (int i = 0; i < sudokuSize; i++)
+	{
+		if (elemNumber == sudokuArray[i][character-97])
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 void StoreSudoku::sudokuElementIterator(Row number, Column character)

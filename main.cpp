@@ -8,12 +8,13 @@ typedef int Column;
 
 int main()
 {
-	StoreSudoku ab(9);
-	ab.sudokuGetAll();
-	ab.sudokuSetElement(0,0,3);
-	Column a = 'a';
-	cout << a << endl;
-	cout << ab.sudokuGetElement(0,a);
+	int nine = 9;
+	StoreSudoku ab(nine);
+	//ab.sudokuGetAll();
+	ab.sudokuSetElement(0,'i','3');
+	cout << ab.sudokuGetElement(0,'i') <<endl;
+	cout << ab.sudokuElementInRow(0,'3') << endl;
+	cout << ab.sudokuElementInCollumn('a','7') << endl;
 	int x;
 	cin >> x;
 	return 0;
