@@ -77,34 +77,46 @@ bool StoreSudoku::sudokuElementInBox(Row number, Column character, char elemNumb
 	//this first if clause sets the boundaries for rows
 	if (number >= 1 && number < 4)
 	{
-		rowsBot = 1;
-		rowsTop = 3;
+		rowsBot = 0;
+		rowsTop = 2;
 	}
 	else if (number > 4 && number < 8)
 	{
-		rowsBot = 4;
-		rowsTop = 6;
+		rowsBot = 3;
+		rowsTop = 5;
 	}
 	else if (number > 7 && number < 10)
 	{
-		rowsBot = 7;
-		rowsTop = 9;
+		rowsBot = 6;
+		rowsTop = 8;
 	}
 
 	if (character > 96 && character < 100)
 	{
-		colsLeft = 97;
-		colsRight = 99;
+		colsLeft = 0;//9698
+		colsRight = 2;
 	}
 	else if (character > 99 && character < 104)
 	{
-		colsLeft = 100;
-		colsRight = 102;
+		colsLeft = 3;
+		colsRight = 5;
 	}
 	else if (character > 103 && character < 107)
 	{
-		colsLeft = 103;
-		colsRight = 105;
+		colsLeft = 6;
+		colsRight = 8;
+	}
+
+	for (int i = rowsBot; i <= rowsTop; i++)
+	{
+		for (int j = colsLeft; j <= colsRight; j++)
+		{
+			cout << sudokuArray[i][j] << " ";
+			if (elemNumber == sudokuArray[i][j])
+			{
+				return true;
+			}
+		}
 	}
 	return false;
 }
@@ -161,7 +173,7 @@ void StoreSudoku::sudokuCheckColumn(Column character)
 }
 void StoreSudoku::sudokuCheckElement(char elemNumber)
 {
-	if (elemNumber-48 > sudokuSize || elemNumber-48 < 1)
+	if (elemNumber-48 > sudokuSize || elemNumber-48 <= 0)
 	{
 		cout << "Error, element number is invalid" << endl;
 		exit(1);

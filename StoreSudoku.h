@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
 
 using namespace std;
 typedef int Row;		//NOT 0-ordered
