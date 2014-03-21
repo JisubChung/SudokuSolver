@@ -3,7 +3,7 @@
 
 StoreSudoku::StoreSudoku(int numberOfLines)
 {
-	sudokuSize = numberOfLines;
+	m_sudokuSize = numberOfLines;
 	ifstream sudoku;
 	sudoku.open("puzzle.txt");
 	char output[10];
@@ -14,7 +14,7 @@ StoreSudoku::StoreSudoku(int numberOfLines)
 			sudoku >> output;
 			for (int j = 0; j < numberOfLines; j++)
 			{
-				sudokuArray[i][j]=output[j];
+				m_sudokuArray[i][j]=output[j];
 			}		
 		}
 	}
@@ -24,13 +24,14 @@ StoreSudoku::~StoreSudoku(void)
 {
 }
 
+
 void StoreSudoku::sudokuGetAll()
 {
 	for (int i = 0; i < 9; i++)
 	{
 		for (int j = 0; j < 9; j++)
 		{
-			cout << sudokuArray[i][j] << "|";
+			cout << m_sudokuArray[i][j] << "|";
 		}
 		cout << endl << "------------------" << endl;
 	}
@@ -41,30 +42,14 @@ char StoreSudoku::sudokuGetElement(Row number, Column character)
 	sudokuCheckColumn(character);
 	return sudokuArray[number-1][character-97];
 }
-
 void StoreSudoku::sudokuSetElement(Row number, Column character, char elemNumber) //character and element needs to be enclosed in ' '
 {
 	sudokuCheckRow(number);
 	sudokuCheckColumn(character);
 	sudokuCheckElement(elemNumber);
-	sudokuArray[number-1][character-97]=elemNumber;
+	m_sudokuArray[number-1][character-97]=elemNumber;
 }
 
-bool StoreSudoku::sudokuCheckElement(Row number, Column character)
-{
-	sudokuCheckRow(number);
-	sudokuCheckColumn(character);
-	//Get a list of all the possible constraints
-	//Check those constraints with elements in contact
-	//if a constraint matches with another element in contact,
-	//then remove that constraint
-
-	//Can be optimized by removing constraint from all elements that share in the box/row/col
-	return false;
-}
-
-//These functions report if "elemNumber" is inside of the Box/Row/Col
-//This is done so that sudokuCheckElement can compare the constraints to elements in contact
 bool StoreSudoku::sudokuElementInBox(Row number, Column character, char elemNumber) //input elemNumber enclosed by ' '
 {
 	sudokuCheckRow(number);
@@ -111,8 +96,8 @@ bool StoreSudoku::sudokuElementInBox(Row number, Column character, char elemNumb
 	{
 		for (int j = colsLeft; j <= colsRight; j++)
 		{
-			cout << sudokuArray[i][j] << " ";
-			if (elemNumber == sudokuArray[i][j])
+			cout << m_sudokuArray[i][j] << " ";
+			if (elemNumber == m_sudokuArray[i][j])
 			{
 				return true;
 			}
@@ -124,9 +109,9 @@ bool StoreSudoku::sudokuElementInRow(Row number, char elemNumber) //input elemNu
 {
 	sudokuCheckRow(number);
 	sudokuCheckElement(elemNumber);
-	for (int i = 0; i < sudokuSize; i++)
+	for (int i = 0; i < m_sudokuSize; i++)
 	{
-		if (elemNumber == sudokuArray[number-1][i])
+		if (elemNumber == m_sudokuArray[number-1][i])
 		{
 			return true;
 		}
@@ -137,9 +122,9 @@ bool StoreSudoku::sudokuElementInCollumn(Column character, char elemNumber) //in
 {
 	sudokuCheckColumn(character);
 	sudokuCheckElement(elemNumber);
-	for (int i = 0; i < sudokuSize; i++)
+	for (int i = 0; i < m_sudokuSize; i++)
 	{
-		if (elemNumber == sudokuArray[i][character-97])
+		if (elemNumber == m_sudokuArray[i][character-97])
 		{
 			return true;
 		}
@@ -147,14 +132,26 @@ bool StoreSudoku::sudokuElementInCollumn(Column character, char elemNumber) //in
 	return false;
 }
 
+bool StoreSudoku::sudokuCheckElement(Row number, Column character)
+{
+	sudokuCheckRow(number);
+	sudokuCheckColumn(character);
+	//Get a list of all the possible constraints
+	//Check those constraints with elements in contact
+	//if a constraint matches with another element in contact,
+	//then remove that constraint
+
+	//Can be optimized by removing constraint from all elements that share in the box/row/col
+	return false;
+}
+
 void StoreSudoku::sudokuElementIterator(Row number, Column character)
 {
 	sudokuCheckRow(number);
 	sudokuCheckColumn(character);
-	//sets sudokuRow and sudokuColumn to be whatever needs to be worked on
+	//sets m_sudokuRow and sudokuColumn to be whatever needs to be worked on
 }
 
-//error catches
 void StoreSudoku::sudokuCheckRow(Row number)
 {
 	if (number < 1 || number > 9)
@@ -165,7 +162,7 @@ void StoreSudoku::sudokuCheckRow(Row number)
 }
 void StoreSudoku::sudokuCheckColumn(Column character)
 {
-	if ((character < 97) || (character > (97 + sudokuSize)))
+	if ((character < 97) || (character > (97 + m_sudokuSize)))
 	{
 		cout << "Error, column is invalid" << endl;
 		exit(1);
@@ -173,7 +170,7 @@ void StoreSudoku::sudokuCheckColumn(Column character)
 }
 void StoreSudoku::sudokuCheckElement(char elemNumber)
 {
-	if (elemNumber-48 > sudokuSize || elemNumber-48 <= 0)
+	if (elemNumber-48 > m_sudokuSize || elemNumber-48 <= 0)
 	{
 		cout << "Error, element number is invalid" << endl;
 		exit(1);

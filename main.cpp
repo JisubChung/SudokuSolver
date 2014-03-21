@@ -2,8 +2,8 @@
 #include "StoreSudoku.h"
 
 using namespace std;
-typedef int Row;	//note that Row is NOT 0-ordered
-typedef int Column;
+typedef int Row;	//NOT 0-ordered
+typedef int Column;	//THIS ACCEPTS LOWER CASE ONLY
 
 int main()
 {

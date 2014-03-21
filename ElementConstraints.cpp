@@ -1,6 +1,5 @@
 #include "ElementConstraints.h"
 
-
 ElementConstraints::ElementConstraints(void)
 {
 	//if the element is not empty
@@ -14,7 +13,6 @@ ElementConstraints::~ElementConstraints(void)
 {
 }
 
-
 void ElementConstraints::constraintRemove(int number)
 {
 	//removes a constraint
@@ -27,7 +25,8 @@ void ElementConstraints::constraintListAll()
 	//lists all the constraints of this element
 }
 
-//int ElementConstraints::constraintNumRemain()
-//{
-//	//returns an int of how many constraints there are left
-//}
+int ElementConstraints::constraintNumRemain()
+{
+	//returns an int of how many constraints there are left
+	return 0;
+}
