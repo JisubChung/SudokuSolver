@@ -5,14 +5,14 @@
 #include <fstream>
 
 using namespace std;
-typedef int Row;		//using these typedefs to reduce confusion
+typedef int Row;		//NOT 0-ordered
 typedef int Column;	//THIS ACCEPTS LOWER CASE ONLY
 
 class StoreSudoku
 {
 public:
 	StoreSudoku();
-	StoreSudoku(int NumberOfLines); //NumberOfLines is useless for now, but will be used for dynamic allowcation of puzzle size
+	StoreSudoku(int NumberOfLines);
 	~StoreSudoku();
 
 	void sudokuGetAll();
@@ -30,9 +30,14 @@ public:
 
 private:
 	int sudokuSize;
-	char sudokuArray[9][9]; //currently using a static array, will implement a dynamically sized array later
+	char sudokuArray[9][9];
 	int sudokuRow;
 	int sudokuColumn;
+
+	//error catches
+	void sudokuCheckRow(Row number);
+	void sudokuCheckColumn(Column character);
+	void sudokuCheckElement(char elemNumber);
 };
 
 #endif
