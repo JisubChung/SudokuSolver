@@ -40,7 +40,7 @@ char StoreSudoku::sudokuGetElement(Row number, Column character)
 {
 	sudokuCheckRow(number);
 	sudokuCheckColumn(character);
-	return sudokuArray[number-1][character-97];
+	return m_sudokuArray[number-1][character-97];
 }
 void StoreSudoku::sudokuSetElement(Row number, Column character, char elemNumber) //character and element needs to be enclosed in ' '
 {

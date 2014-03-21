@@ -2,31 +2,48 @@
 
 ElementConstraints::ElementConstraints(void)
 {
-	//if the element is not empty
-	//then do not continue
-	//else,
-	//creates a set or an array of the constraints
+	for (char i = '1'; i <= '9'; i++)
+	{
+		m_options.insert(i);
+	}
+	//for now implementing the easiest case
+	//will optimize code later
 }
-
 
 ElementConstraints::~ElementConstraints(void)
 {
 }
 
-void ElementConstraints::constraintRemove(int number)
+bool ElementConstraints::constraintRemove(char elemNumber)
 {
-	//removes a constraint
-	//if constraintNumRemain() == 0 after this function
-	//then StoreSudoku::setelement
+	if (constraintNumRemain()<1)
+	{
+		exit(1);
+	}
+	m_options.erase(elemNumber);
+	if (constraintNumRemain()==1)
+	{
+		return true; //return true will call StoreSudoku to set element
+	}
+	return false; //false will do nothing
 }
 
 void ElementConstraints::constraintListAll()
 {
-	//lists all the constraints of this element
+	m_itr = m_options.begin();
+	while (m_itr != m_options.end())
+	{
+		cout << *m_itr;
+		m_itr++;
+	}
+}
+char ElementConstraints::constraintLast()
+{
+	m_itr = m_options.begin();
+	return *m_itr;
 }
 
 int ElementConstraints::constraintNumRemain()
 {
-	//returns an int of how many constraints there are left
-	return 0;
+	return m_options.size();
 }
