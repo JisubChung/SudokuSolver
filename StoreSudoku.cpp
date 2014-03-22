@@ -1,6 +1,5 @@
 #include "StoreSudoku.h"
 
-
 StoreSudoku::StoreSudoku(int numberOfLines)
 {
 	m_sudokuSize = numberOfLines;
@@ -24,7 +23,6 @@ StoreSudoku::~StoreSudoku(void)
 {
 }
 
-
 void StoreSudoku::sudokuGetAll()
 {
 	for (int i = 0; i < 9; i++)
@@ -38,23 +36,25 @@ void StoreSudoku::sudokuGetAll()
 }
 char StoreSudoku::sudokuGetElement(Row number, Column character)
 {
-	sudokuCheckRow(number);
-	sudokuCheckColumn(character);
+	m_sudokuVerifyRow(number);
+	m_sudokuVerifyColumn(character);
 	return m_sudokuArray[number-1][character-97];
 }
 void StoreSudoku::sudokuSetElement(Row number, Column character, char elemNumber) //character and element needs to be enclosed in ' '
 {
-	sudokuCheckRow(number);
-	sudokuCheckColumn(character);
-	sudokuCheckElement(elemNumber);
+	m_sudokuVerifyRow(number);
+	m_sudokuVerifyColumn(character);
+	m_sudokuVerifyElement(elemNumber);
 	m_sudokuArray[number-1][character-97]=elemNumber;
+	m_itr = m_sudokuConstraintsArray[number-1][character-97].begin();
+	m_sudokuConstraintsArray[number-1][character-97].erase(*m_itr);
 }
 
 bool StoreSudoku::sudokuElementInBox(Row number, Column character, char elemNumber) //input elemNumber enclosed by ' '
 {
-	sudokuCheckRow(number);
-	sudokuCheckColumn(character);
-	sudokuCheckElement(elemNumber);
+	m_sudokuVerifyRow(number);
+	m_sudokuVerifyColumn(character);
+	m_sudokuVerifyElement(elemNumber);
 	int rowsTop;
 	int rowsBot;
 	int colsLeft;
@@ -78,7 +78,7 @@ bool StoreSudoku::sudokuElementInBox(Row number, Column character, char elemNumb
 
 	if (character > 96 && character < 100)
 	{
-		colsLeft = 0;//9698
+		colsLeft = 0;
 		colsRight = 2;
 	}
 	else if (character > 99 && character < 104)
@@ -107,8 +107,8 @@ bool StoreSudoku::sudokuElementInBox(Row number, Column character, char elemNumb
 }
 bool StoreSudoku::sudokuElementInRow(Row number, char elemNumber) //input elemNumber enclosed by ' '
 {
-	sudokuCheckRow(number);
-	sudokuCheckElement(elemNumber);
+	m_sudokuVerifyRow(number);
+	m_sudokuVerifyElement(elemNumber);
 	for (int i = 0; i < m_sudokuSize; i++)
 	{
 		if (elemNumber == m_sudokuArray[number-1][i])
@@ -120,8 +120,8 @@ bool StoreSudoku::sudokuElementInRow(Row number, char elemNumber) //input elemNu
 }
 bool StoreSudoku::sudokuElementInCollumn(Column character, char elemNumber) //input character & elemNumber enclosed by ' '
 {
-	sudokuCheckColumn(character);
-	sudokuCheckElement(elemNumber);
+	m_sudokuVerifyColumn(character);
+	m_sudokuVerifyElement(elemNumber);
 	for (int i = 0; i < m_sudokuSize; i++)
 	{
 		if (elemNumber == m_sudokuArray[i][character-97])
@@ -134,25 +134,81 @@ bool StoreSudoku::sudokuElementInCollumn(Column character, char elemNumber) //in
 
 bool StoreSudoku::sudokuCheckElement(Row number, Column character)
 {
-	sudokuCheckRow(number);
-	sudokuCheckColumn(character);
-	//Get a list of all the possible constraints
-	//Check those constraints with elements in contact
-	//if a constraint matches with another element in contact,
-	//then remove that constraint
-
-	//Can be optimized by removing constraint from all elements that share in the box/row/col
-	return false;
+	m_sudokuVerifyRow(number);
+	m_sudokuVerifyColumn(character);
+	if (m_sudokuArray[number-1][character-97] != '0')	//This checks for the case that the element has already been filled out
+	{
+		return false;
+	}
+	bool check = true; //this condition assumes that the element is NOT inside of the box/row/col
+	m_itr = m_sudokuConstraintsArray[number-1][character-97].begin();
+	for (m_itr = m_sudokuConstraintsArray[number-1][character-97].begin(); m_itr != m_sudokuConstraintsArray[number-1][character-97].end(); m_itr++)
+	{
+		if (sudokuElementInBox(number, character, *m_itr) == true || sudokuElementInCollumn(character, *m_itr) == true || sudokuElementInRow(number, *m_itr) == true)
+		{//This if statement can be optimized by separating and applying the remove code to each other member of the box/row/col
+			//if element is inside of the box/row/col
+			check = false; //the element is also seen in the box/row/col
+			if(sudokuRemoveConstraint(number, character, *m_itr) == true)
+			{
+				m_itr = m_sudokuConstraintsArray[number-1][character-97].begin();
+				sudokuSetElement(number, character, *m_itr);
+			}
+		}
+	}
+	if (check == false)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+void StoreSudoku::sudokuInitializeConstraints(Row number, Column character)
+{
+	m_sudokuVerifyRow(number);
+	m_sudokuVerifyColumn(character);
+	
+	for (int i = 0; i < m_sudokuSize; i++)
+	{
+		for (int j = 0; j < m_sudokuSize; j++)
+		{
+			if (m_sudokuArray[number-1][character-97] == '0')
+			{
+					for (char k = '1'; k <= '9'; k++)
+					{
+						m_sudokuConstraintsArray[number-1][character-97].insert(k);
+					}
+			}
+		}
+	}
+}//This can be optimized
+bool StoreSudoku::sudokuRemoveConstraint(Row number, Column character, char elemNumber)
+{
+	if (sudokuRemainingConstraints(number, character)<1)
+	{
+		exit(1);
+	}
+	m_sudokuConstraintsArray[number-1][character-97].erase(elemNumber);
+	if (sudokuRemainingConstraints(number, character)==1)
+	{
+		return true; //return true will call StoreSudoku to set element
+	}
+	return false; //false will do nothing
+}
+int StoreSudoku::sudokuRemainingConstraints(Row number, Column character)
+{
+	return m_sudokuConstraintsArray[number-1][character-97].size();
 }
 
 void StoreSudoku::sudokuElementIterator(Row number, Column character)
 {
-	sudokuCheckRow(number);
-	sudokuCheckColumn(character);
+	m_sudokuVerifyRow(number);
+	m_sudokuVerifyColumn(character);
 	//sets m_sudokuRow and sudokuColumn to be whatever needs to be worked on
 }
 
-void StoreSudoku::sudokuCheckRow(Row number)
+void StoreSudoku::m_sudokuVerifyRow(Row number)
 {
 	if (number < 1 || number > 9)
 	{
@@ -160,7 +216,7 @@ void StoreSudoku::sudokuCheckRow(Row number)
 		//exit(1);
 	}
 }
-void StoreSudoku::sudokuCheckColumn(Column character)
+void StoreSudoku::m_sudokuVerifyColumn(Column character)
 {
 	if ((character < 97) || (character > (97 + m_sudokuSize)))
 	{
@@ -168,7 +224,7 @@ void StoreSudoku::sudokuCheckColumn(Column character)
 		exit(1);
 	}
 }
-void StoreSudoku::sudokuCheckElement(char elemNumber)
+void StoreSudoku::m_sudokuVerifyElement(char elemNumber)
 {
 	if (elemNumber-48 > m_sudokuSize || elemNumber-48 <= 0)
 	{

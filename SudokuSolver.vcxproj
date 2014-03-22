@@ -64,12 +64,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ElementConstraints.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="StoreSudoku.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ElementConstraints.h" />
     <ClInclude Include="StoreSudoku.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
