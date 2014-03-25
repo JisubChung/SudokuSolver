@@ -18,12 +18,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="StoreSudoku.cpp">
+    <ClCompile Include="sudoku.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="StoreSudoku.h">
+    <ClInclude Include="sudoku.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
