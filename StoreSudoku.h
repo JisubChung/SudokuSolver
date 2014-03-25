@@ -49,6 +49,8 @@ private:
 	int m_sudokuColumn;
 	set<char> m_sudokuConstraintsArray[9][9];
 	set<char>::iterator m_itr;
+	set<char>::iterator m_itrSecond;
+	char m_itrHold;
 
 	//error catches
 	//These are here in the case a bad input is called into a function

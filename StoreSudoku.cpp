@@ -96,7 +96,6 @@ bool StoreSudoku::sudokuElementInBox(Row number, Column character, char elemNumb
 	{
 		for (int j = colsLeft; j <= colsRight; j++)
 		{
-			cout << m_sudokuArray[i][j] << " ";
 			if (elemNumber == m_sudokuArray[i][j])
 			{
 				return true;
@@ -141,18 +140,23 @@ bool StoreSudoku::sudokuCheckElement(Row number, Column character)
 		return false;
 	}
 	bool check = true; //this condition assumes that the element is NOT inside of the box/row/col
-	m_itr = m_sudokuConstraintsArray[number-1][character-97].begin();
 	for (m_itr = m_sudokuConstraintsArray[number-1][character-97].begin(); m_itr != m_sudokuConstraintsArray[number-1][character-97].end(); m_itr++)
 	{
 		if (sudokuElementInBox(number, character, *m_itr) == true || sudokuElementInCollumn(character, *m_itr) == true || sudokuElementInRow(number, *m_itr) == true)
 		{//This if statement can be optimized by separating and applying the remove code to each other member of the box/row/col
 			//if element is inside of the box/row/col
 			check = false; //the element is also seen in the box/row/col
-			if(sudokuRemoveConstraint(number, character, *m_itr) == true)
+			m_itrHold = *m_itr;
+			m_itr = m_itr = m_sudokuConstraintsArray[number-1][character-97].begin();
+			if(sudokuRemoveConstraint(number, character, m_itrHold) == true)
 			{
 				m_itr = m_sudokuConstraintsArray[number-1][character-97].begin();
-				sudokuSetElement(number, character, *m_itr);
+				sudokuSetElement(number, character, m_itrHold);
 			}
+		}
+		else
+		{
+			m_itr++;
 		}
 	}
 	if (check == false)
@@ -189,7 +193,20 @@ bool StoreSudoku::sudokuRemoveConstraint(Row number, Column character, char elem
 	{
 		exit(1);
 	}
-	m_sudokuConstraintsArray[number-1][character-97].erase(elemNumber);
+	if (m_itr != m_sudokuConstraintsArray[number-1][character-97].end())
+	{
+		m_itrSecond = m_sudokuConstraintsArray[number-1][character-97].end();
+		m_itrSecond--;
+		cout << *m_itr << " con: " << sudokuRemainingConstraints(number, character) << " end: " << *m_itrSecond;
+		m_itr = m_sudokuConstraintsArray[number-1][character-97].erase(m_itr);
+		cout << ":)" << endl;
+	}
+	else
+	{
+		cout << "hello";
+		m_itr++;
+	}
+
 	if (sudokuRemainingConstraints(number, character)==1)
 	{
 		return true; //return true will call StoreSudoku to set element
