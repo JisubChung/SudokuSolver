@@ -4,10 +4,12 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <vector>
 
 using namespace std;
-typedef int Row;
-typedef int Column;
+typedef int Row;	//NOT 0-ORDERED
+typedef int Column;	//NOT 0-ORDERED
 
 class sudoku
 {
@@ -16,13 +18,13 @@ public:
 	sudoku(int inputSize, string &fileName);
 	~sudoku();
 
-	int sukuSet(Row x, Column y, int z);
-
+	void sukuSet(Row x, Column y, int z);
+	void sukuPrint();
 	
 
 private:
 	int m_sukuSize;
-	int **m_sukuPuzzle;
+	vector<vector<int>> m_sukuPuzzle; 
 	//-FUNCTION: Fills known puzzle elements
 	//-TODO: add a check to make sure length matches m_sudokuSize
 	int m_sukuFill(string &fileName); 

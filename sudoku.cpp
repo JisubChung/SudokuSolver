@@ -3,25 +3,34 @@
 using namespace std;
 
 sudoku::sudoku(int inputSize, string &fileName)
+	:m_sukuPuzzle(inputSize, std::vector<int>(inputSize, 0))
 {
-	m_sukuSize = inputSize;
-	int ** m_sukuPuzzle = new int * [m_sukuSize];
-	for (int i = 0; i < m_sukuSize; i++)
-	{
-		m_sukuPuzzle[i] = new int[m_sukuSize];
-	}
-	//m_sukuFill(fileName);
-	
+	m_sukuSize=inputSize;
+	m_sukuFill(fileName);
 }
 
 sudoku::~sudoku()
 {
+}
+
+void sudoku::sukuSet(Row x, Column y, int z) //ROW & COLUMN ARE NOT 0-ORDERED
+{
+	m_sukuPuzzle[x-1][y-1] = z;
+}
+void sudoku::sukuPrint()
+{
 	for (int i = 0; i < m_sukuSize; i++)
 	{
-		cout << i << "<--i size-->" << m_sukuSize << endl;
-		delete [] this->m_sukuPuzzle[i];
+		for (int j = 0; j < m_sukuSize; j++)
+		{
+			cout << m_sukuPuzzle[i][j];
+			if (j < m_sukuSize-1)
+			{
+				cout << ", ";
+			}
+		}
+		cout << endl;
 	}
-	delete [] m_sukuPuzzle;
 }
 
 int sudoku::m_sukuFill(string &fileName)
@@ -33,16 +42,25 @@ int sudoku::m_sukuFill(string &fileName)
 		cout << "File not found";
 		return (-1);
 	}
-	char * sukuLine = new char[m_sukuSize];
-	for (int i = 0; !sukuFile.eof(); i++)
+	Row x = 1;
+	Column y = 1;
+	int count = 0;
+	for (string line; getline(sukuFile, line, ',') || count<(m_sukuSize);)
 	{
-		sukuFile >> sukuLine;
-		cout << sukuLine;
-		for (int j = 0; j < m_sukuSize; j++)
+		int result;
+		stringstream convert(line);
+		if (!(convert >> result))
 		{
-			m_sukuPuzzle[i][j] = sukuLine[j]-'0';
-			cout << i << " " << j << endl;
+			result = 0;
 		}
+		sukuSet(x,y,result);
+		if (y/m_sukuSize == 1 && y%m_sukuSize == 0)
+		{
+			x++;
+			y=0;
+			count++;
+		}
+		y++;
 	}
 	sukuFile.close();
 	return 0;
