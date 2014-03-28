@@ -7,6 +7,7 @@ sudoku::sudoku(int inputSize, string &fileName)
 {
 	m_sukuSize=inputSize;
 	m_sukuFill(fileName);
+
 }
 
 sudoku::~sudoku()
@@ -33,6 +34,11 @@ void sudoku::sukuPrint()
 	}
 }
 
+
+
+
+
+
 int sudoku::m_sukuFill(string &fileName)
 {
 	ifstream sukuFile;
@@ -45,6 +51,7 @@ int sudoku::m_sukuFill(string &fileName)
 	Row x = 1;
 	Column y = 1;
 	int count = 0;
+	//int numOfBlanks = 0;
 	for (string line; getline(sukuFile, line, ',') || count<(m_sukuSize);)
 	{
 		int result;
@@ -53,6 +60,10 @@ int sudoku::m_sukuFill(string &fileName)
 		{
 			result = 0;
 		}
+		//if (result != 0)
+		//{
+		//	numOfBlanks++;
+		//}
 		sukuSet(x,y,result);
 		if (y/m_sukuSize == 1 && y%m_sukuSize == 0)
 		{
@@ -64,4 +75,9 @@ int sudoku::m_sukuFill(string &fileName)
 	}
 	sukuFile.close();
 	return 0;
+	//return numOfBlanks;
+}
+int sudoku::m_ONCFill()
+{
+
 }

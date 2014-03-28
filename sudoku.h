@@ -22,12 +22,15 @@ public:
 	void sukuPrint();
 	
 
+
 private:
 	int m_sukuSize;
-	vector<vector<int>> m_sukuPuzzle; 
+	vector<vector<int>> m_sukuPuzzle;
+	vector<vector<int>> m_ONC;
 	//-FUNCTION: Fills known puzzle elements
 	//-TODO: add a check to make sure length matches m_sudokuSize
 	int m_sukuFill(string &fileName); 
+	int m_ONCFill();
 };
 
 #endif
