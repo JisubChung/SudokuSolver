@@ -23,3 +23,7 @@ bool canPutCol(int row, int col, int num) {
 bool canPutBox(int row, int col, int num) {
 
 }
+
+void solve(int * puzzle) {
+	
+}

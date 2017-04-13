@@ -2,6 +2,7 @@
 #define ALGORITHM_H_
 #include <stdbool.h>
 
+void solve(int * puzzle);
 bool tryPut(int row, int col, int num);
 bool canPutRow(int row, int col, int num);
 bool canPutCol(int row, int col, int num);
