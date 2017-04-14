@@ -9,8 +9,6 @@ int main() {
 	char *path = "puzzle.txt";
 	int *puzzle = importPuzzle(path);
 
-	printPuzzle(puzzle);
-
 	clock_t start = clock(), diff;
 	solve(puzzle);
 	diff=clock()-start;
@@ -19,6 +17,7 @@ int main() {
 
 	if(verifyPuzzle(puzzle)) {
 		printf("Time taken %d seconds %d milliseconds\n", msec/1000, msec%1000);
+		printPuzzle(puzzle);
 	} else {
 		printf("Not correctly solved\n");
 	}
