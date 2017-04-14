@@ -27,8 +27,10 @@ bool tryFit(int row, int col, int num, int * puzzle) {
 	return willFit;
 }
 
-/* The following three functions will go through each row, col, or box
+/*
+ * The following three functions will go through each row, col, or box
  * to see if num will fit in multiple cells.
+ * i.e. if you CAN put only one Num in row, col, or box then TRUE
 */
 bool oneFitInRow(int row, int num, int * puzzle) {
 	bool oneFit = false;
@@ -56,7 +58,7 @@ bool oneFitInCol(int col, int num, int * puzzle) {
 	int i = col, j = i+81, k = 0;
 	while(oneFit && i < j) {
 		if(puzzle[i] == 0){
-			if(!isThereNumInRow(i/9,num,puzzle) && !isThereNumInBox(i/9,i,num,puzzle)) {
+			if(!isThereNumInRow(i/9,num,puzzle) && !isThereNumInBox(i/9,col,num,puzzle)) {
 				k++;
 				if(k > 1) {
 					oneFit = false;
@@ -76,7 +78,7 @@ bool oneFitInBox(int row, int col, int num, int * puzzle) {
 // these check if num is in the row, col, or box
 bool isThereNumInRow(int row, int num, int * puzzle) {
 	bool numInRow = false;
-	int i = row, j = i+9;
+	int i = row*9, j = i+9;
 	while(i < j) {
 		if(puzzle[i] == num){
 			numInRow = true;
